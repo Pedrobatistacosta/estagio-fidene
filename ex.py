@@ -23,17 +23,19 @@ def fluxo_amizade():
         iniciar_amizade()
         return True
     else:
-        resposta_bebida = entrada_sn("Voce gostaria de uma bebida (s/n) ? ")
+        resposta_bebida = entrada_sn("Voce gostaria de uma bebida quente (s/n)? ")
         if resposta_bebida == "s":
-            bebidas = ["Cafe, cha ou achocolatado?"]
+            # Pergunta separada para cada bebida quente
+            bebidas = ["cafe", "cha", "achocolatado"]
             for bebida in bebidas:
-               quer = entrada_sn(f"Voce gostaria de {bebida}? (s/n): ")
-               if quer == "s":
-                  print(f"vamos sair tomar um {bebida} algum dia entao!, so marcar!")
-                  time.sleep(1) 
-                  iniciar_amizade()
-                  return True
-            print("Tudo bem!, vamos pensar e alguma outra coisa para fazer!")
+                quer = entrada_sn(f"Voce gostaria de {bebida}? (s/n): ")
+                if quer == "s":
+                    print(f"Vou preparar um {bebida} para voce!")
+                    time.sleep(1)
+                    iniciar_amizade()
+                    return True
+            print("Tudo bem, vamos pensar em outra atividade!")
+        # Parte dos interesses (caso não aceite nenhuma bebida)
         ultimo_interesse = ""
         for i in range(3):
             interesse = input("Me diga um interesse seu: ")
@@ -47,7 +49,7 @@ def fluxo_amizade():
             else:
                 print("Eu insisto!")
                 time.sleep(1)
-        print(f"Voce insiste, ,mas mesmo assim vou marcar um horario para fazer {ultimo_interesse} juntos!")
+        print(f"Voce insiste, mas mesmo assim vou marcar um horario para fazer {ultimo_interesse} juntos!")
         time.sleep(1)
         iniciar_amizade()
         return True
@@ -55,14 +57,12 @@ def fluxo_amizade():
 def uma_ligacao():
     while True:
         limpar_tela()
-        em_casa = entrada_sn("voce esta em casa (s/n)? ")
-        if em_casa == "n":
-            print("Deixe uma mensagem e, quando chegar em casa, ligue para mim.")
-            print("Espere a ligacao.\n")
-            time.sleep(1)
-            return False
-            if fluxo_amizade(): 
-                break 
-                
+        em_casa = entrada_sn("Voce esta em casa (s/n)? ")
+        if em_casa == "n":          
+                    print("Deixe uma mensagem e, quando chegar em casa, ligue para mim.")
+                    print("Espere a ligacao.\n")
+        if fluxo_amizade():
+            break
 
-        uma_ligacao()
+# Início do programa
+uma_ligacao()

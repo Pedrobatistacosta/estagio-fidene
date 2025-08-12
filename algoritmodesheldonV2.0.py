@@ -25,7 +25,7 @@ def fluxo_amizade():
     else:
         resposta_bebida = entrada_sn("Voce gostaria de uma bebida (s/n) ? ")
         if resposta_bebida == "s":
-            bebidas = ["Cafe, cha ou achocolatado?"]
+            bebidas = ["Cafe", "cha", "achocolatado"]
             for bebida in bebidas:
                quer = entrada_sn(f"Voce gostaria de {bebida}? (s/n): ")
                if quer == "s":
@@ -47,7 +47,7 @@ def fluxo_amizade():
             else:
                 print("Eu insisto!")
                 time.sleep(1)
-        print(f"Voce insiste, ,mas mesmo assim vou marcar um horario para fazer {ultimo_interesse} juntos!")
+        print(f"Voce insiste, mas mesmo assim vou marcar um horario para fazer {ultimo_interesse} juntos!")
         time.sleep(1)
         iniciar_amizade()
         return True
@@ -57,12 +57,10 @@ def uma_ligacao():
         limpar_tela()
         em_casa = entrada_sn("voce esta em casa (s/n)? ")
         if em_casa == "n":
-            print("Deixe uma mensagem e, quando chegar em casa, ligue para mim.")
-            print("Espere a ligacao.\n")
-            time.sleep(1)
-            return False
-            if fluxo_amizade(): 
-                break 
+                    print("Deixe uma mensagem e, quando chegar em casa, ligue para mim.")
+                    print("Espere a ligacao.\n")
+        if fluxo_amizade():
+            break
                 
 
-        uma_ligacao()
+uma_ligacao()
