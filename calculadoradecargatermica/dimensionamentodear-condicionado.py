@@ -25,14 +25,50 @@ def entrada_int(mensagem, minimo=None, maximo=None):
         else:
             print("Erro: Por favor, digite apenas numeros inteiros.")
 
+def coletar_dadosaberturas():
+    num_janelas = entrada_int("Quantas janelas se encontram no recinto? ", 0)
+    area_total_janelas = 0
+    carga_total_janelas = 0
+    
+    for i in range(num_janelas):
+        print(f"\nJANELA {i+1}")
+        area_janelas = entrada_float("Qual seria a area da janela ( em metros quadrados)? ")
+        
+        print("A janela pega sol de manha com cortina (1)")
+        print("A janela pega sol de tarde com cortina (2)")
+        print("A janela pega sol de manha sem cortina (3)")
+        print("A janela pega sol de tarde sem cortina (4)")
+        print("A janela esta na sombra (5)")
+        print("A janela pega sol o dia todo com cortina (6)")
+        print("A janela pega sol o dia todo sem cortina (7)")
+        tipo = entrada_int("Escolha a opcao correspondente (1 a 7): ", 1, 7)
+
+        coeficientes = {
+            1: 160, # manha cortina
+            2: 212, # tarde cortina
+            3: 222, # manha s cortina
+            4: 410, # tarde s cortina
+            5: 37, # sombra
+            6: 372, # todo d cortina
+            7: 632 # todo s cortina
+        }
+
+        coeficientes = coeficientes.get(tipo, 0)
+
+        carga_janela = area_janelas * coeficientes 
+        carga_total_janelas += carga_janela
+        area_total_janelas += area_janelas
+
+    return area_total_janelas, carga_total_janelas
+
 def coletar_dados():
-    print("Bem vindo a calculadora de carga termica para predios, vamos coletar alguns dados para selecionar o ar-condicionado indicado para o seu ambiente.")
+    print("---Dimensionamento de ar condicionado---")
+    
     comprimento = entrada_float("Me diga o comprimento da sala designada (em metros): ")
     largura = entrada_float("Agora me diga a largura dessa sala ( em metros): ")
     altura = entrada_float("E por fim, me diga a altura da sala ( em metros): ")
     posicao = entrada_int(("A sala esta: 1 - Entre andares, 2- Sob telhado: "),1, 2)
-    janelas = entrada_int("Quantas janelas existem na sala? ")
-    area_janelas = entrada_float("Qual a area total das janelas (em metros quadrados)? ")
+    area_janelas, carga_janelas = coletar_dadosaberturas()
     area_portas = entrada_float("Qual a area total da(s) porta(s) (em metros quadrados)? ")
     pessoas = entrada_int("Quantas pessoas esta sala comporta? ")
     voltagem_equipamentos = entrada_float("Qual a potencia total que os equipamentos eletricos da sala comportam (em Watts)? ") 
@@ -43,14 +79,13 @@ def coletar_dados():
         "Largura": largura,
         "altura": altura,
         "posicao": posicao,
-        "janelas": janelas,
         "area_janelas": area_janelas,
+        "carga_janelas": carga_janelas,
         "area_portas": area_portas,
         "pessoas": pessoas,
         "voltagem_equipamentos": voltagem_equipamentos,
         "horas_uso": horas_uso
     }
-        
                                        
 def calcular_carga(dados):
     volume = dados["comprimento"] * dados["Largura"] * dados["altura"]             
@@ -60,10 +95,9 @@ def calcular_carga(dados):
     else:
         carga_recinto = volume * 22.3
 
-    carga_janelas = dados["area_janelas"] * 200
+    carga_janelas = dados["area_janelas"]
     carga_portas = dados["area_portas"] *125
     pessoas = dados["pessoas"] * 125
-
     carga_equipamentos = dados["voltagem_equipamentos"] *0.9
         
     carga_total = carga_recinto + carga_janelas + carga_portas + pessoas + carga_equipamentos
